@@ -59,40 +59,12 @@ The output file will be named based on the input file's name, with the extension
 
 ### YAML Configuration File
 
-Your YAML configuration file should follow a specific format with information about DynamoDB tables, their primary keys, and indexes. Here's an example:
+To effectively use this tool, ensure that your YAML configuration file adheres to a specific format, providing details about your DynamoDB tables, including their primary keys and indexes. Below is an illustrative example:
 
-```yaml
-Resources:
-  Table1:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: MyTable1
-      KeySchema:
-        - AttributeName: primary_key
-          KeyType: HASH
-      AttributeDefinitions:
-        - AttributeName: primary_key
-          AttributeType: S
-  Table2:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: MyTable2
-      KeySchema:
-        - AttributeName: primary_key
-          KeyType: HASH
-      AttributeDefinitions:
-        - AttributeName: primary_key
-          AttributeType: S
-      GlobalSecondaryIndexes:
-        - IndexName: GSI1
-          KeySchema:
-            - AttributeName: gsi1_key
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-```
+[dynamodb_test.yaml](dynamodb_test.yaml)
 
-The script will analyze this configuration file and create a graph illustrating the tables and their relationships.
+When you run the script, it will analyze the configuration file, generating a comprehensive graph that visually represents the tables and their interconnected relationships.
+![](dynamodb_test.png)
 
 ## License
 

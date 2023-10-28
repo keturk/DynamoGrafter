@@ -1,0 +1,220 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Test DynamoDB tables for dynamodb-graph
+
+Resources:
+  CustomersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Customers
+      AttributeDefinitions:
+        - AttributeName: customerID
+          AttributeType: S
+        - AttributeName: customerEmail
+          AttributeType: S
+        - AttributeName: customerAge
+          AttributeType: N
+      KeySchema:
+        - AttributeName: customerID
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      GlobalSecondaryIndexes:
+        - IndexName: EmailIndex
+          KeySchema:
+            - AttributeName: customerEmail
+              KeyType: HASH
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes:
+              - customerAge
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+  OrdersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Orders
+      AttributeDefinitions:
+        - AttributeName: orderID
+          AttributeType: S
+        - AttributeName: customerID
+          AttributeType: S
+        - AttributeName: productID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: orderID
+          KeyType: HASH
+      LocalSecondaryIndexes:
+        - IndexName: ProductIndex
+          KeySchema:
+            - AttributeName: orderID
+              KeyType: HASH
+            - AttributeName: productID
+              KeyType: RANGE
+          Projection:
+            ProjectionType: KEYS_ONLY
+
+  ProductsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Products
+      AttributeDefinitions:
+        - AttributeName: productID
+          AttributeType: S
+        - AttributeName: categoryID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: productID
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: CategoryIndex
+          KeySchema:
+            - AttributeName: categoryID
+              KeyType: HASH
+          Projection:
+            ProjectionType: KEYS_ONLY
+
+  CategoriesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Categories
+      AttributeDefinitions:
+        - AttributeName: categoryID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: categoryID
+          KeyType: HASH
+
+  ReviewsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Reviews
+      AttributeDefinitions:
+        - AttributeName: reviewID
+          AttributeType: S
+        - AttributeName: productID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: reviewID
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: ProductReviewIndex
+          KeySchema:
+            - AttributeName: productID
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  InventoryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Inventory
+      AttributeDefinitions:
+        - AttributeName: inventoryID
+          AttributeType: S
+        - AttributeName: productID
+          AttributeType: S
+        - AttributeName: stockQuantity
+          AttributeType: N
+      KeySchema:
+        - AttributeName: inventoryID
+          KeyType: HASH
+      LocalSecondaryIndexes:
+        - IndexName: InventoryProductIndex
+          KeySchema:
+            - AttributeName: inventoryID
+              KeyType: HASH
+            - AttributeName: productID
+              KeyType: RANGE
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes:
+              - productID
+              - stockQuantity
+
+  WishlistTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Wishlist
+      AttributeDefinitions:
+        - AttributeName: wishlistID
+          AttributeType: S
+        - AttributeName: customerID
+          AttributeType: S
+        - AttributeName: wishlistProducts
+          AttributeType: S  # Assuming a string representation of a JSON list
+      KeySchema:
+        - AttributeName: wishlistID
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: CustomerWishlistIndex
+          KeySchema:
+            - AttributeName: customerID
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  CartTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Cart
+      AttributeDefinitions:
+        - AttributeName: cartID
+          AttributeType: S
+        - AttributeName: customerID
+          AttributeType: S
+        - AttributeName: cartProducts
+          AttributeType: S  # Assuming a string representation of a JSON map
+      KeySchema:
+        - AttributeName: cartID
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: CustomerCartIndex
+          KeySchema:
+            - AttributeName: customerID
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  TransactionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Transactions
+      AttributeDefinitions:
+        - AttributeName: transactionID
+          AttributeType: S
+        - AttributeName: orderID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: transactionID
+          KeyType: HASH
+      LocalSecondaryIndexes:
+        - IndexName: TransactionOrderIndex
+          KeySchema:
+            - AttributeName: transactionID
+              KeyType: HASH
+            - AttributeName: orderID
+              KeyType: RANGE
+          Projection:
+            ProjectionType: KEYS_ONLY
+
+  ShipmentTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Shipment
+      AttributeDefinitions:
+        - AttributeName: shipmentID
+          AttributeType: S
+        - AttributeName: orderID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: shipmentID
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: ShipmentOrderIndex
+          KeySchema:
+            - AttributeName: orderID
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL

@@ -1,0 +1,21 @@
+// DynamoDB Tables Diagram
+digraph {
+	Customers [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Customers</TD></TR><TR><TD>customerID (S) (PK)</TD></TR><TR><TD>customerEmail (S)</TD></TR><TR><TD>customerAge (N)</TD></TR></TABLE>>]
+	Orders [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Orders</TD></TR><TR><TD>orderID (S) (PK)</TD></TR><TR><TD>customerID (S)</TD></TR><TR><TD>productID (S)</TD></TR></TABLE>>]
+	Products [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Products</TD></TR><TR><TD>productID (S) (PK)</TD></TR><TR><TD>categoryID (S)</TD></TR></TABLE>>]
+	Categories [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Categories</TD></TR><TR><TD>categoryID (S) (PK)</TD></TR></TABLE>>]
+	Reviews [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Reviews</TD></TR><TR><TD>reviewID (S) (PK)</TD></TR><TR><TD>productID (S)</TD></TR></TABLE>>]
+	Inventory [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Inventory</TD></TR><TR><TD>inventoryID (S) (PK)</TD></TR><TR><TD>productID (S)</TD></TR><TR><TD>stockQuantity (N)</TD></TR></TABLE>>]
+	Wishlist [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Wishlist</TD></TR><TR><TD>wishlistID (S) (PK)</TD></TR><TR><TD>customerID (S)</TD></TR><TR><TD>wishlistProducts (S)</TD></TR></TABLE>>]
+	Cart [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Cart</TD></TR><TR><TD>cartID (S) (PK)</TD></TR><TR><TD>customerID (S)</TD></TR><TR><TD>cartProducts (S)</TD></TR></TABLE>>]
+	Transactions [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Transactions</TD></TR><TR><TD>transactionID (S) (PK)</TD></TR><TR><TD>orderID (S)</TD></TR></TABLE>>]
+	Shipment [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD>Shipment</TD></TR><TR><TD>shipmentID (S) (PK)</TD></TR><TR><TD>orderID (S)</TD></TR></TABLE>>]
+	Products -> Orders [color=blue]
+	Categories -> Products [color=blue]
+	Products -> Reviews [color=blue]
+	Products -> Inventory [color=blue]
+	Customers -> Wishlist [color=blue]
+	Customers -> Cart [color=blue]
+	Orders -> Transactions [color=blue]
+	Orders -> Shipment [color=blue]
+}

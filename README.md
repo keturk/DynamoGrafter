@@ -1,6 +1,6 @@
 # DynamoDB Visualization Project
 
-![GitHub](https://img.shields.io/github/license/your-username/your-repo-name)
+![GitHub](https://github.com/keturk/DynamoGrafter.git)
 
 This project is a collection of Python scripts designed to help you visualize and understand the structure of your DynamoDB tables and their relationships using the Graphviz library. The project consists of three main scripts:
 
@@ -38,7 +38,6 @@ pip install -r requirements.txt
 
 Thank you for providing additional details. Here's the revised "Usage" section that includes the ability to specify an output path and describes how the output file name is generated:
 
-```markdown
 ## Usage
 
 To utilize this project, you primarily interact with the `dynamo_grafter.py` script, which orchestrates the functionality of the other two scripts (`yaml_parser.py` and `graph_generator.py`). Here's how to use the project:

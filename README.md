@@ -1,6 +1,6 @@
-# DynamoDB Visualization Project
+# DynamoDB Visualizer
 
-![GitHub](https://github.com/keturk/DynamoGrafter.git)
+[DynamoGrafter GitHub](https://github.com/keturk/DynamoGrafter.git)
 
 This project is a collection of Python scripts designed to help you visualize and understand the structure of your DynamoDB tables and their relationships using the Graphviz library. The project consists of three main scripts:
 

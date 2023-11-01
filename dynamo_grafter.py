@@ -20,9 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import click
 import os
 import logging
+import click
 from yaml_parser import parse_yaml_file
 from graph_generator import generate_html_label, generate_graph_from_yaml
 
@@ -42,14 +42,14 @@ def generate_output_filepath(input_filepath, output_dir):
 # Command line interface
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True))
-@click.option('--output-dir', type=click.Path(), default='.', help='Directory to save the output graph. '
-                                                                   'Default is the current directory.')
-def main(file_path, output_dir):
+@click.option('--output-dir', type=click.Path(), default='.', help='Directory to save the output graph. Default is the current directory.')
+@click.option('--force', is_flag=True, help='Overwrite without asking for confirmation.')
+def main(file_path, output_dir, force):
     yaml_data = parse_yaml_file(file_path)
     output_filepath = generate_output_filepath(file_path, output_dir)
     dot = generate_graph_from_yaml(yaml_data)
 
-    if os.path.exists(output_filepath):
+    if not force and os.path.exists(output_filepath):
         confirmation = input(f"File '{output_filepath}' already exists. Overwrite? (y/n): ").strip().lower()
         if confirmation != 'y':
             logging.info("Graph generation canceled.")
